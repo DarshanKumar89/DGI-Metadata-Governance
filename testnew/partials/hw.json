@@ -1,0 +1,25 @@
+{
+  "name": "sales_fact",
+ 
+  "children": [
+    {
+      "name": "loadSalesDaily",
+      "children": [
+        {
+          "name": "loadSalesMonthly"
+          
+        }
+        
+      ]
+    },
+    {
+      "name": " sales_fact_daily_mv",
+      "children": [
+        {
+          "name": "sales_fact_monthly_mv"
+       
+        }
+      ]
+    }
+  ]
+}

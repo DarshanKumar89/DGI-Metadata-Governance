@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.link {
+  fill: none;
+  stroke: green;
+  stroke-width: 3.0px;
+}
+
+.node text {
+  font: 10px sans-serif;
+}
+
+.node circle {
+  stroke: green;
+  stroke-width: 2.5px;
+}
+
+.node.active {
+  fill: blue;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v2.js?2.9.6"></script>
+<script>
+
+var margin = {top: 40, right: 40, bottom: 40, left: 50},
+    width = 460 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var tree = d3.layout.tree()
+    .size([height, width]);
+
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("hw.json", function(root) {
+  var nodes = tree.nodes(root),
+      links = tree.links(nodes);
+
+//arrow
+ svg.append("svg:defs").append("svg:marker").attr("id", "arrow").attr("viewBox", "0 0 10 10").attr("refX", 16).attr("refY", 5).attr("markerUnits", "strokeWidth").attr("markerWidth", 7).attr("markerHeight", 8).attr("orient", "auto").append("svg:path").attr("d", "M 0 0 L 10 5 L 0 10 z");
+//arrow
+ // // node.exit().remove();
+
+  // Create the link lines.
+  svg.selectAll(".link")
+      .data(links)
+
+    .enter().append("path")
+    .attr("marker-end", "url(#arrow)") //also added attribute for arrow at end 
+      .attr("class", "link")
+
+      .attr("d", diagonal);
+
+  // Create the node circles.
+  var node = svg.selectAll(".node")
+      .data(nodes)
+    .enter().append("g")
+
+      .attr("class", function(d) { return "node " + d.name; })
+
+      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+      //  .on("mouseover", function(d) { highlight(d.name); })
+
+      // .on("mouseout", function(d) { highlight(null); });
+
+      //arrow postioned
+node.attr("marker-end", "url(#arrow)"); //also added attribute for arrow at end 
+  
+
+//images
+
+    // svg.append("svg:pattern").attr("id","processICO").attr("width",1).attr("height",1)
+    //                     .append("svg:image").attr("xlink:href","img/process.png").attr("x",-5.5).attr("y",-4).attr("width",42).attr("height",42);
+    //                 svg.append("svg:pattern").attr("id","textICO").attr("width",1).attr("height",1)
+    //                     .append("svg:image").attr("xlink:href","img/tableicon.png").attr("x",2).attr("y",2).attr("width",25).attr("height",25);
+
+  node.append("circle")
+
+      .attr("r", 4.5);
+
+      // .style("fill", function(d, i) {
+      //                       if(d.size==3938){
+      //                           return "url('#processICO')";
+      //                       }else{
+      //                           return "url('#textICO')";
+      //                       }
+      //                       return colors(i);
+      //                   });
+
+//image 
+
+   node.append("image")
+    .attr("xlink:href", "../img/process.png")
+    .attr("x", -10)
+    .attr("y", -22)
+    .attr("width", 36)
+    .attr("height", 36);
+
+// //image
+//    node.append("image")
+//     .attr("xlink:href", "img/tableicon.png")
+//     .attr("x", -10)
+//     .attr("y", -22)
+//     .attr("width", 36)
+//     .attr("height", 36);
+
+
+
+//mouse over
+ node.on("mouseover", function() { 
+  node.append("text")
+     .attr("x", 30)
+      .attr("dy", "1.45em")
+   .attr("text-anchor", "end")
+      .text(function(d) { return d.name; });
+
+ });
+
+ 
+  // node.append("text")
+  //     .attr("x", -6)
+  //     .attr("dy", ".35em")
+
+  //     .attr("text-anchor", "end");
+
+       
+       // .text(function(d) { return d.name; });
+});
+// node.on("mouseout", function() { 
+//   node.append("text")
+//      .attr("x", 30)
+//       .attr("dy", "1.45em")
+//    .attr("text-anchor", "end")
+//      .text(function(d) { return d.name; });
+
+//  });
+function highlight(type) {
+  if (type == null) d3.selectAll(".node").classed("active", false);
+  else d3.selectAll(".node." + type).classed("active", true);
+}
+
+</script>
