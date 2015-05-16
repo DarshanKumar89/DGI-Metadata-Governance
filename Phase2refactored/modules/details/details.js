@@ -52,7 +52,7 @@ DgcControllers.controller("headerController", ['$scope', '$window', '$location',
 
 DgcControllers.controller("footerController", ['$scope','$http', function($scope, $http)
     {
-        $http.get('http://162.249.6.50:21000/api/metadata/admin/version')
+        $http.get('/api/metadata/admin/version')
             .success(function (data) {
                 $scope.iserror1=false;
                 $scope.apiVersion=data.Version;
@@ -70,7 +70,7 @@ DgcControllers.controller("footerController", ['$scope','$http', function($scope
 DgcControllers.controller("NavController", ['$scope','$http', '$filter', 'sharedProperties', function($scope, $http, $filter, sharedProperties)
 {
 
-    $http.get('http://162.249.6.50:21000/api/metadata/types')
+    $http.get('/api/metadata/types')
         .success(function (data) {
             $scope.iserror1=false;
             $scope.leftnav=angular.fromJson(data.results);
@@ -164,7 +164,7 @@ DgcControllers.controller("ListController", ['$scope','$http', '$filter','$state
             });
 
 
-            $http.get('http://162.249.6.50:21000/api/metadata/discovery/search?query='+$scope.SearchQuery)
+            $http.get('/api/metadata/discovery/search?query='+$scope.SearchQuery)
                 .success(function (data) {
                     $scope.iserror=false;
                     $scope.entities=angular.fromJson(data.results.rows);
@@ -241,7 +241,7 @@ DgcControllers.controller("ListController", ['$scope','$http', '$filter','$state
     };
     //click value to textbox
         $scope.getGuidName=function getGuidName(val){
-            $http.get('http://162.249.6.50:21000/api/metadata/entities/'+val)
+            $http.get('/api/metadata/entities/'+val)
                 .success(function (data) {
                     $scope.iserror1=false;
                     if(!$scope.isUndefined(data.results)){
@@ -354,7 +354,7 @@ DgcControllers.controller("DefinitionController", ['$scope','$http', '$statePara
     };
 //onclick to textbox
 					$scope.getGuidName=function getGuidName(val){
-					$http.get('http://162.249.6.50:21000/api/metadata/entities/'+val)
+					$http.get('/api/metadata/entities/'+val)
 						.success(function (data) {
 						$scope.iserror1=false;
 							if(!$scope.isUndefined(data.results)){
@@ -375,7 +375,7 @@ DgcControllers.controller("DefinitionController", ['$scope','$http', '$statePara
         $scope.searchqry=sharedProperties.getQuery();
         $scope.datatype1=sharedProperties.getProperty();
 
-        $http.get('http://162.249.6.50:21000/api/metadata/entities/'+$stateParams.Id)
+        $http.get('/api/metadata/entities/'+$stateParams.Id)
                 .success(function (data) {
                     $scope.iserror1=false;
                 $scope.details=  angular.fromJson(data.results);
@@ -396,7 +396,7 @@ DgcControllers.controller("DefinitionController", ['$scope','$http', '$statePara
 
         $scope.getSchema= function (tableName) {
 
-            $http.get('http://162.249.6.50:21000/api/metadata/lineage/hive/table/'+tableName +'/schema')
+            $http.get('/api/metadata/lineage/hive/table/'+tableName +'/schema')
                 .success(function (data) {
                     $scope.iserror1=false;
                     $scope.schema=  angular.fromJson(data.results.rows);
@@ -420,7 +420,7 @@ $scope.getLinegae= function (tableName) {
             var arrmyalias=[];
 			   var datatypes=[];
 			   var tags=[];
-            $http.get('http://162.249.6.50:21000/api/metadata/lineage/hive/table/'+tableName+'/outputs')
+            $http.get('/api/metadata/lineage/hive/table/'+tableName+'/outputs')
                 .success(function (data) {
                     $scope.iserror1=false;
                     $scope.lineage=  angular.fromJson(data.results.rows);
@@ -462,7 +462,7 @@ $scope.getLinegae= function (tableName) {
                             newarrvts.push(item);
                             uniquevts[item.Name] = item;
 
-							  var url="http://162.249.6.50:21000/api/metadata/entities/"+item.Name;
+							  var url="/api/metadata/entities/"+item.Name;
 							   arr.push($http.get(url));
                         }
                     });
@@ -813,7 +813,7 @@ $scope.getLinegaeforinput= function (tableName) {
             var arrmyalias=[];
 			   var datatypes=[];
 			   var tags=[];
-            $http.get('http://162.249.6.50:21000/api/metadata/lineage/hive/table/'+tableName+'/inputs')
+            $http.get('/api/metadata/lineage/hive/table/'+tableName+'/inputs')
                 .success(function (data) {
                     $scope.iserror1=false;
                     $scope.lineage=  angular.fromJson(data.results.rows);
@@ -854,7 +854,7 @@ $scope.getLinegaeforinput= function (tableName) {
                             newarrvts.push(item);
                             uniquevts[item.Name] = item;
 
-							  var url="http://162.249.6.50:21000/api/metadata/entities/"+item.Name;
+							  var url="/api/metadata/entities/"+item.Name;
 							   arr.push($http.get(url));
 
                             //getLienageGuidName(item.Name);
@@ -1260,7 +1260,7 @@ DgcControllers.controller("GuidController", ['$scope','$http', '$filter','$state
 $scope.getGuidName=function getGuidName(val){
 
         $scope.gnew=[];
-                    $http.get('http://162.249.6.50:21000/api/metadata/entities/'+val)
+                    $http.get('/api/metadata/entities/'+val)
                         .success(function (data) {
                         $scope.iserror1=false;
                             if(!$scope.isUndefined(data.results)){
